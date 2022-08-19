@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { name$, storeDataOnServer, storeDataOnServerError } from './external';
 
 function App() {
+  // name$.subscribe((value) => console.log(value));
+  // storeDataOnServer('Some value').subscribe((value) => console.log(value));
+  storeDataOnServerError('Some Value').subscribe({
+    next: (value) => console.log(value),
+    error: (err) => console.log('Error when saving: ', err.message),
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <h2 className="my-4">Quick Start</h2>
+      </div>
     </div>
   );
 }
