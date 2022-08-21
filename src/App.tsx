@@ -1,12 +1,23 @@
-import './App.css';
-import { name$, storeDataOnServer, storeDataOnServerError } from './external';
+import { Observable, Subscriber } from "rxjs";
+import "./App.css";
+import { name$, storeDataOnServer, storeDataOnServerError } from "./external";
 
 function App() {
-  // name$.subscribe((value) => console.log(value));
-  // storeDataOnServer('Some value').subscribe((value) => console.log(value));
-  storeDataOnServerError('Some Value').subscribe({
+  const observable$ = new Observable<string>((subscriber) => {
+    console.log("Observable executed");
+    subscriber.next("Alice");
+    subscriber.next("Ben");
+    setTimeout(() => subscriber.error(new Error("Failure")), 2000);
+    setTimeout(() => {
+      subscriber.next("Charlie");
+      subscriber.complete();
+    }, 4000);
+  });
+
+  observable$.subscribe({
     next: (value) => console.log(value),
-    error: (err) => console.log('Error when saving: ', err.message),
+    error: (err) => console.log(err.message),
+    complete: () => console.log("Completed"),
   });
 
   return (
